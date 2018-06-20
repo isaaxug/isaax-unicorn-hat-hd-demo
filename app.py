@@ -5,10 +5,10 @@ import signal
 import time
 from sys import exit
 
-try:
-    from PIL import Image, ImageDraw, ImageFont
-except ImportError:
-    exit("This script requires the pillow module\nInstall with: sudo pip install pillow")
+#try:
+from PIL import Image, ImageDraw, ImageFont
+#except ImportError:
+#    exit("This script requires the pillow module\nInstall with: sudo pip install pillow")
 
 import unicornhathd
 
