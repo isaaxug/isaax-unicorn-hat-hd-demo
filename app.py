@@ -63,7 +63,7 @@ def show(unicornhathd, image, text_width, width, height):
         time.sleep(0.01)
 
     unicornhathd.off()
-    return true
+    return True
 
 while True:
     show(unicornhathd, image, text_width, width, height)
