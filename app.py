@@ -4,6 +4,7 @@ import colorsys
 import signal
 import time
 import os
+import re
 from sys import exit
 
 try:
@@ -14,9 +15,11 @@ except ImportError:
 import unicornhathd
 
 def show():
-    os.environ.update()
-    lines = os.environ.get('MESSAGE').split(',')
-
+    text = open('./isaax-project.env', 'r').readlines()[0]
+    regex = r'.*?="(.*)"$'
+    matchObj = re.match(regex, text)
+    lines = [matchObj.group()]
+    
     colours = [tuple([int(n * 255) for n in colorsys.hsv_to_rgb(x/float(len(lines)), 1.0, 1.0)]) for x in range(len(lines))]
 
     FONT = ("/usr/share/fonts/truetype/roboto/Roboto-Bold.ttf", 10)
