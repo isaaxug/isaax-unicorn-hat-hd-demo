@@ -3,51 +3,24 @@
 import colorsys
 import signal
 import time
+import os
 from sys import exit
 
-#try:
+try:
 from PIL import Image, ImageDraw, ImageFont
-#except ImportError:
-#    exit("This script requires the pillow module\nInstall with: sudo pip install pillow")
+except ImportError:
+    exit("This script requires the pillow module\nInstall with: sudo pip install pillow")
 
 import unicornhathd
 
-
-print("""Unicorn HAT HD: Text
-
-This example shows how to draw, display and scroll text in a regular
-TrueType font on Unicorn HAT HD.
-
-It uses the Python Pillow/PIL image library, and all other drawing functions
-are available. See: http://pillow.readthedocs.io/en/3.1.x/reference/
-
-""")
-
-
-lines = ["In the old #BILGETANK we'll keep you in the know",
-         "In the old #BILGETANK we'll fix your techie woes",
-         "And we'll make things",
-         "And we'll break things",
-         "'til we're altogether aching",
-         "Then we'll grab a cup of grog down in the old #BILGETANK"]
+lines = [os.environ.get('MESSAGE')]
 
 colours = [tuple([int(n * 255) for n in colorsys.hsv_to_rgb(x/float(len(lines)), 1.0, 1.0)]) for x in range(len(lines))]
 
-
-# Use `fc-list` to show a list of installed fonts on your system,
-# or `ls /usr/share/fonts/` and explore.
-
-# FONT = ("/usr/share/fonts/truetype/freefont/FreeSansBold.ttf", 12)
-
-# sudo apt install fonts-droid
-#FONT = ("/usr/share/fonts/truetype/droid/DroidSans.ttf", 12)
-
-# sudo apt install fonts-roboto
 FONT = ("/usr/share/fonts/truetype/roboto/Roboto-Bold.ttf", 10)
 
 unicornhathd.rotation(0)
 unicornhathd.brightness(1.0)
-
 
 width, height = unicornhathd.get_shape()
 
@@ -78,14 +51,20 @@ for index, line in enumerate(lines):
 
     offset_left += font.getsize(line)[0] + width
 
-for scroll in range(text_width - width):
-    for x in range(width):
-        for y in range(height):
-            pixel = image.getpixel((x+scroll, y))
-            r, g, b = [int(n) for n in pixel]
-            unicornhathd.set_pixel(width-1-x, y, r, g, b)
+def show(unicornhathd, image, text_width, width, height):
+    for scroll in range(text_width - width):
+        for x in range(width):
+            for y in range(height):
+                pixel = image.getpixel((x+scroll, y))
+                r, g, b = [int(n) for n in pixel]
+                unicornhathd.set_pixel(width-1-x, y, r, g, b)
 
-    unicornhathd.show()
-    time.sleep(0.01)
+        unicornhathd.show()
+        time.sleep(0.01)
 
-unicornhathd.off()
+    unicornhathd.off()
+    return true
+
+while True:
+    show(unicornhathd, image, text_width, width, height)
+    time.sleep(3)
