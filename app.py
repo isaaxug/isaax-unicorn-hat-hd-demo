@@ -7,7 +7,7 @@ import os
 from sys import exit
 
 try:
-from PIL import Image, ImageDraw, ImageFont
+    from PIL import Image, ImageDraw, ImageFont
 except ImportError:
     exit("This script requires the pillow module\nInstall with: sudo pip install pillow")
 
