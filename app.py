@@ -16,9 +16,8 @@ import unicornhathd
 
 def show():
     text = open('./isaax-project.env', 'r').readlines()[0]
-    regex = r'.*?="(.*)"$'
-    matchObj = re.match(regex, text)
-    lines = matchObj.group().split(',')
+    matchObj = re.match(r'.*?="(.*)"$', text)
+    lines = matchObj.group(1).split(',')
     
     colours = [tuple([int(n * 255) for n in colorsys.hsv_to_rgb(x/float(len(lines)), 1.0, 1.0)]) for x in range(len(lines))]
 
